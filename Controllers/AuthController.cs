@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
@@ -42,7 +43,7 @@ public class AuthController : ControllerBase
             return Ok(token);
         }
         
-        return Ok();
+        return BadRequest("user not found");
     }
 
     private User Authenticate(UserLogin obj)
@@ -50,12 +51,7 @@ public class AuthController : ControllerBase
         var currentUser = _context.users.FirstOrDefault(o => o.Username.ToLower() == obj.username.ToLower() 
                                                                   && o.Password == obj.password);
 
-        if (currentUser != null)
-        {
-            return currentUser;
-        }
-
-        return null;
+        return currentUser;
     }
 
     private string Generate(User obj)
@@ -65,9 +61,17 @@ public class AuthController : ControllerBase
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, obj.Username)
+            new Claim(ClaimTypes.NameIdentifier, obj.Username),
+            new Claim(ClaimTypes.Email, obj.Email),
+            new Claim(ClaimTypes.Role, obj.Role)
         };
+
+        var token = new JwtSecurityToken(_config["JWT:Issuer"],
+            _config["JWT:Audience"],
+            claims,
+            expires: DateTime.Now.AddDays(30),
+            signingCredentials: credentials);
         
-        return "";
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
