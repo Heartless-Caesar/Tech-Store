@@ -50,7 +50,7 @@ public class ProductController : ControllerBase
             return Ok(updatedList);
     }
 
-    [HttpPut("product/edit/{id}")]
+    [HttpPut("product/edit")]
     public async Task<ActionResult<Product>> UpdateProduct(Product obj)
     {
         var checkProduct = await _context.products.FindAsync(obj.Id);
