@@ -30,12 +30,41 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
         var singleProduct = await _context.products.FindAsync(id);
-        
+
         if (singleProduct == null)
         {
             return NotFound($"No item with Id for {id}");
         }
 
         return Ok(singleProduct);
+    }
+
+    [HttpPost("product/create")]
+    public async Task<ActionResult<List<Product>>> PostProduct(Product obj)
+    {
+            _context.products.Add(obj);
+            await _context.SaveChangesAsync();
+            
+            var updatedList = await _context.products.ToListAsync();
+            
+            return Ok(updatedList);
+    }
+
+    [HttpPut("product/edit/{id}")]
+    public async Task<ActionResult<Product>> UpdateProduct(Product obj)
+    {
+        var checkProduct = await _context.products.FindAsync(obj.Id);
+        
+        if (checkProduct == null) return NotFound($"No element with id of {obj.Id}");
+
+        checkProduct.Title = obj.Title;
+        checkProduct.Description = obj.Description;
+        checkProduct.Price = obj.Price;
+
+        await _context.SaveChangesAsync();
+
+        var updatedList = await _context.products.ToListAsync();
+        
+        return Ok(updatedList);
     }
 }
