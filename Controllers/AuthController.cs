@@ -15,13 +15,14 @@ namespace TechDistributor.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
-    
-    public AuthController(AppDbContext context)
+    private readonly IConfiguration _config;
+    public AuthController(AppDbContext context, IConfiguration config)
     {
         _context = context;
+        _config = config;
     }
 
-    private readonly IConfiguration _config;
+    
 
     [HttpPost("api/register")]
     public async Task<ActionResult<User>> UserRegister(User obj)
@@ -43,15 +44,18 @@ public class AuthController : ControllerBase
             return Ok(token);
         }
         
-        return BadRequest("user not found");
+        return BadRequest("User not found");
     }
 
     private User Authenticate(UserLogin obj)
     {
         var currentUser = _context.users.FirstOrDefault(o => o.Username.ToLower() == obj.username.ToLower() 
                                                                   && o.Password == obj.password);
-
-        return currentUser;
+        if (currentUser != null)
+        {
+            return currentUser;
+        }
+        return null;
     }
 
     private string Generate(User obj)
