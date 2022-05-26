@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using TechDistributor.Models;
 
 namespace TechDistributor.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
