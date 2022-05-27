@@ -14,8 +14,21 @@ builder.Services.AddMvc();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+/*------------------------------ Cross Origin Requests ------------------------------*/
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "SpecificOrigins", policy =>
+        {
+            policy.WithOrigins("https://localhost:5181", "http://localhost:5181");
+            
+        });
+});
+/* --------------------------------------------------------------------------------- */
+//SQL Server connection string
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 /*  Enables JWT Provider and Consumers as well as their validations  */
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -49,6 +62,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseRouting();
+
+app.UseCors("SpecificOrigins");
 
 app.UseAuthorization();
 
