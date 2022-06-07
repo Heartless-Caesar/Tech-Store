@@ -25,6 +25,12 @@
     <Compile Remove="Migrations\20220523114136_InitialMigration.cs" />
     <Compile Remove="Migrations\20220523114136_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\AppDbContextModelSnapshot.cs" />
+    <Compile Remove="Migrations\20220525110012_SecondMigration.cs" />
+    <Compile Remove="Migrations\20220525110012_SecondMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220525115536_InitialMigration.cs" />
+    <Compile Remove="Migrations\20220525115536_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220607111642_Update.cs" />
+    <Compile Remove="Migrations\20220607111642_Update.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
