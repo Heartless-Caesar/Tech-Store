@@ -7,8 +7,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {} 
     
-    public DbSet<User> users { get; set; }
-    
-    public DbSet<Product> products { get; set; }
-    
+    public DbSet<User> Users { get; set; } = null!;
+
+    public DbSet<Product> Products { get; set; } = null!;
 }

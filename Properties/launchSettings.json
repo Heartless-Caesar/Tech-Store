@@ -16,7 +16,10 @@
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7289;http://localhost:5010",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_URL" : "TechStore",
+        "DB_USER" : "SA",
+        "DB_PASSWORD" : "887887Yua@"
       }
     },
     "IIS Express": {

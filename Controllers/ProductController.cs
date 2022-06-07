@@ -20,7 +20,7 @@ public class ProductController : ControllerBase
     [HttpGet("/products/catalog")]
     public async Task<ActionResult<List<Product>>> GetProducts()
     {
-        var productList = await _context.products.ToListAsync();
+        var productList = await _context.Products.ToListAsync();
 
         return Ok(productList);
     }
@@ -29,7 +29,7 @@ public class ProductController : ControllerBase
     [HttpGet("/product/{id}")]
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
-        var singleProduct = await _context.products.FindAsync(id);
+        var singleProduct = await _context.Products.FindAsync(id);
 
         if (singleProduct == null)
         {
@@ -42,10 +42,10 @@ public class ProductController : ControllerBase
     [HttpPost("product/create")]
     public async Task<ActionResult<List<Product>>> PostProduct(Product obj)
     {
-            _context.products.Add(obj);
+            _context.Products.Add(obj);
             await _context.SaveChangesAsync();
             
-            var updatedList = await _context.products.ToListAsync();
+            var updatedList = await _context.Products.ToListAsync();
             
             return Ok(updatedList);
     }
@@ -53,7 +53,7 @@ public class ProductController : ControllerBase
     [HttpPut("product/edit")]
     public async Task<ActionResult<Product>> UpdateProduct(Product obj)
     {
-        var checkProduct = await _context.products.FindAsync(obj.Id);
+        var checkProduct = await _context.Products.FindAsync(obj.Id);
         
         if (checkProduct == null) return NotFound($"No element with id of {obj.Id}");
 
@@ -63,7 +63,7 @@ public class ProductController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        var updatedList = await _context.products.ToListAsync();
+        var updatedList = await _context.Products.ToListAsync();
         
         return Ok(updatedList);
     }
@@ -71,11 +71,11 @@ public class ProductController : ControllerBase
     [HttpDelete("api/delete/{id}")]
     public async Task<ActionResult<Product>> DeleteProduct(int id)
     {
-        var product = await _context.products.FindAsync(id);
+        var product = await _context.Products.FindAsync(id);
 
         if (product == null) return NotFound("Product not found");
 
-        _context.products.Remove(product);
+        _context.Products.Remove(product);
 
         await _context.SaveChangesAsync();
 

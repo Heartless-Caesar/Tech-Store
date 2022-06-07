@@ -27,35 +27,35 @@ public class AuthController : ControllerBase
     [HttpPost("api/register")]
     public async Task<ActionResult<User>> UserRegister(User obj)
     {
-        _context.users.Add(obj);
+        _context.Users.Add(obj);
         await _context.SaveChangesAsync();
         return Ok("User created");
     }
     
     [HttpPost("api/login")]
     [AllowAnonymous]
-    public async Task<ActionResult<UserLogin>> UserLogin([FromBody]UserLogin obj)
+    public Task<ActionResult<UserLogin>> UserLogin([FromBody]UserLogin obj)
     {
         var user = Authenticate(obj);
 
         if (user != null)
         {
             var token = Generate(user);
-            return Ok(token);
+            return Task.FromResult<ActionResult<UserLogin>>(Ok(token));
         }
         
-        return BadRequest("User not found");
+        return Task.FromResult<ActionResult<UserLogin>>(BadRequest("User not found"));
     }
 
     private User Authenticate(UserLogin obj)
     {
-        var currentUser = _context.users.FirstOrDefault(o => o.Username.ToLower() == obj.username.ToLower() 
+        var currentUser = _context.Users.FirstOrDefault(o => o.Username.ToLower() == obj.username.ToLower() 
                                                                   && o.Password == obj.password);
         if (currentUser != null)
         {
             return currentUser;
         }
-        return null;
+        return null!;
     }
 
     private string Generate(User obj)

@@ -34,11 +34,11 @@ public class UserController : ControllerBase
 
             return new User
             {
-                Username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value,
-                Role = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value
+                Username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value!,
+                Role = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.Role)?.Value!
             };
         }
 
-        return null;
+        return null!;
     }
 }
